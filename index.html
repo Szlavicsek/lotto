@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="cover"></div>
+    <img id="spinner" src="spinner.gif" alt="">
+    <div class="container p-5">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-5">Fix numbers (<span id="fixNumberCount">0</span>)</h1>
+            </div>
+        </div>
+        <form action="#" id="selectedFixNumbers">
+            <div class="row" id="inputs"></div>
+            <div class="row mt-3">
+                <div class="col">
+                    <p>Highs: <span id="highsCount">0</span></p>
+                </div>
+                <div class="col">
+                    <p>Lows: <span id="lowsCount">0</span></p>
+                </div>
+
+                <div class="col">
+                    <p>Odds: <span id="oddsCount">0</span></p>
+                </div>
+
+                <div class="col">
+                    <p>Evens: <span id="evensCount">0</span></p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col mt-5">
+                    <button id="generate-button" type="submit" class="btn btn-primary btn-disabled">Generate numbers</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    <span id="totalResultCount"></span>
+                    <ul class="result-container mt-2" id="allResults"></ul>
+                </div>
+                <div class="col-lg-6">
+                    <span id="reducedResultCount"></span>
+                    <ul class="result-container mt-2" id="reducedResults"></ul>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

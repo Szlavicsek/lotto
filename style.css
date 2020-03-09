@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+.delete-icon {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  top: 0;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background-color: #c21807;
+  border-radius: 10px;
+  color: #FFF;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+}
+
+.delete-icon::-moz-selection {
+  background-color: none;
+}
+
+.delete-icon::selection {
+  background-color: none;
+}
+
+.col-input:hover .delete-icon {
+  opacity: 1;
+}
+
+.result-container {
+  list-style: none;
+  display: block;
+  height: 400px;
+  background-color: #FFF;
+  overflow-y: scroll;
+  padding: 10px 20px;
+  letter-spacing: 5px;
+}
+
+#cover {
+  z-index: 5;
+  position: fixed;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #FFF;
+  opacity: 0.8;
+}
+
+#spinner {
+  display: none;
+  z-index: 10;
+  position: fixed;
+  width: 100px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+/*# sourceMappingURL=style.css.map */
