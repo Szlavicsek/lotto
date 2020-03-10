@@ -112,6 +112,11 @@ const createInputs = () => {
             })
 
             $newInput.change(handleInputChange);
+            $newInput.keyup(function () {
+                if ($(this).val().split('')[0] === '0' || $(this).val() > 35) {
+                    $(this).val('')
+                }
+            });
             
             $newCol.append($newDeleteIcon)
             $newCol.append($newInput)
@@ -126,9 +131,16 @@ const createInputs = () => {
     })
 
     $('input').change(handleInputChange);
+
+    $("input").keyup(function () {
+        if ($(this).val().split('')[0] === '0' || $(this).val() > 35) {
+            $(this).val('')
+        }
+    });
 }
 
 function handleInputChange(e) {
+
     const fields = $('#selectedFixNumbers').serializeArray()
     const fieldValues = fields.map(x => x.value).filter(x => x)
 
@@ -208,31 +220,55 @@ $('#selectedFixNumbers').submit(function (e) {
             reducedCombinations.forEach((combination, i) => {
                 const $li = $('<li/>').text(combination);
                 $("#reducedResults").append($li)
-                if (i === reducedCombinations.length - 1) {
-                    $('#cover').hide()
-                    $('#spinner').hide()
-                }
             })
-            
-        } else {
-            $('#reducedResultCount').text(`no reduced combination`)
-
-            $('#cover').hide()
-            $('#spinner').hide()
+            $('#combination_picker_wrapper').addClass('d-block');
+            const resultsLengthRoundedTo50 = floorNumTo50(reducedCombinations.length);
+            $('#formControlRange').attr('max', resultsLengthRoundedTo50);
+            const defaultNumRoundedTo50 = roundnumTo50(resultsLengthRoundedTo50 / 2)
+            let defaultVal;
+            if (reducedCombinations.length >= 300) {
+                defaultVal = 300
+            } else {
+                defaultVal = defaultNumRoundedTo50
+            }
+            $('#formControlRange').val(defaultVal);
+            $('#random_combination_amount').text($('#formControlRange').val())
+            $('#pick_combos_button').text(`Pick ${$('#formControlRange').val()} random combinations`);
+            $('#pick_combos_button').click(function(e) {
+                const shuffledCombinations = _.shuffle(reducedCombinations)
+                const desiredAmount = Number($('#formControlRange').val());
+                shuffledCombinations.forEach((combo, i) => {
+                    if (i < desiredAmount) {
+                        const $listItem = $('<li/>').html(`<strong>${i+1}</strong>: ${combo}`);
+                        $('#final_combinations').append($listItem)
+                    }
+                })
+                $('#randomlyPickedResultCount').text(`${desiredAmount} combinations picked`)
+                e.preventDefault()
+            })
         }
+
+        $('#cover').hide()
+        $('#spinner').hide()
+
     }, 150)
     
 
     e.preventDefault()
 })
 
-$(function () {
-    $("input").keyup(function () {
-        if ($(this).val().split('')[0] === '0' || $(this).val() > 35) {
-            $(this).val('')
-        }
-    });
+$('#formControlRange').on('input', function() {
+    $('#random_combination_amount').text($('#formControlRange').val())
+    $('#pick_combos_button').text(`Pick ${$('#formControlRange').val()} random combinations`)
 });
+
+function roundnumTo50(num) {
+    return Math.round(num / 50) * 50;
+}
+
+function floorNumTo50(num) {
+    return Math.floor(num / 50) * 50;
+}
 
 
 

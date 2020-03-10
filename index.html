@@ -54,10 +54,25 @@
                 </div>
             </div>
         </form>
+        <div class="row mt-5 d-none" id="combination_picker_wrapper">
+            <div class="col-12 text-center">
+                <div class="form-group">
+                    <label for="formControlRange">Pick <span id="random_combination_amount"></span> random combinations</label>
+                    <input step="50" min="0" max="200" type="range" class="form-control-range" id="formControlRange">
+                </div>
         
+            </div>
+            <div class="col-12 mt-5 text-center">
+                <button type="button" id="pick_combos_button" class="btn btn-primary"></button>
+            </div>
+            <div class="col-lg-6 mx-auto mt-5">
+                <span id="randomlyPickedResultCount"></span>
+                <ul class="result-container mt-2" id="final_combinations"></ul>
+            </div>
+        </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="index.js"></script>
 </body>
