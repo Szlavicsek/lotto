@@ -3,6 +3,12 @@
  * @param {number} comboLength
  * @return {*[]}
  */
+(async () => {
+const records = await $.ajax("/lotto.json")
+  .then(res => res)
+  .catch(err => console.log(err));
+
+
 function combineWithoutRepetitions(comboOptions, comboLength) {
     // If the length of the combination is 1 then each element of the original array
     // is a combination itself.
@@ -70,7 +76,7 @@ function reduceCombinations(chosenNumbers, allCombinations) {
 }
 // console.log(combinationsWithoutRepetitions);
 
-let fixNumberCount = 15;
+let fixNumberCount = 20;
 let chosenNumbers;
 
 
@@ -198,6 +204,7 @@ function hasDuplicates(array) {
 $('#selectedFixNumbers').submit(function (e) {
     $('#cover').fadeIn(100)
     $('#spinner').fadeIn(100)
+	$("#combination_picker_wrapper").addClass("d-none");
 
     setTimeout(() => {
         const fields = $(this).serializeArray()
@@ -235,15 +242,29 @@ $('#selectedFixNumbers').submit(function (e) {
             $('#random_combination_amount').text($('#formControlRange').val())
             $('#pick_combos_button').text(`Pick ${$('#formControlRange').val()} random combinations`);
             $('#pick_combos_button').click(function(e) {
-                const shuffledCombinations = _.shuffle(reducedCombinations)
-                const desiredAmount = Number($('#formControlRange').val());
-                shuffledCombinations.forEach((combo, i) => {
-                    if (i < desiredAmount) {
-                        const $listItem = $('<li/>').html(`<strong>${i+1}</strong>: ${combo}`);
-                        $('#final_combinations').append($listItem)
-                    }
-                })
-                $('#randomlyPickedResultCount').text(`${desiredAmount} combinations picked`)
+				$("#final_combinations").html("");
+				$("#tbody1").html("");
+				$("#tbody2").html("");
+				$("#cover").fadeIn(100);
+				$("#spinner").fadeIn(100);
+				setTimeout(() => {
+					const shuffledCombinations = _.shuffle(reducedCombinations);
+					const desiredAmount = Number($("#formControlRange").val());
+					const shuffledCombinationsOfDesiredAmount = [];
+					shuffledCombinations.forEach((combo, i) => {
+						if (i < desiredAmount) {
+							shuffledCombinationsOfDesiredAmount.push(combo);
+							const $listItem = $("<li/>").html(`
+													<strong>${i + 1}</strong>: ${combo}
+													`);
+							$("#final_combinations").append($listItem);
+						}
+					});
+					drawTable(shuffledCombinationsOfDesiredAmount);
+					$("#randomlyPickedResultCount").text(`${desiredAmount} combinations picked`);
+					$("#cover").hide(100);
+                    $("#spinner").hide(100);
+				}, 150)
                 e.preventDefault()
             })
         }
@@ -262,6 +283,86 @@ $('#formControlRange').on('input', function() {
     $('#pick_combos_button').text(`Pick ${$('#formControlRange').val()} random combinations`)
 });
 
+const total = {
+    7: 0,
+    6: 0,
+    5: 0,
+    4: 0,
+}
+
+
+function findHits(shuffledCombinationsOfDesiredAmount, machinePicked, manualPicked, num) {
+	let totalHitsOfNum = 0;
+	shuffledCombinationsOfDesiredAmount.forEach((combo, comboIndex) => {
+		let counter = 0;
+		combo.forEach(x => {
+            if (
+                machinePicked.find(y => y === x) ||
+                manualPicked.find(y => y === x)
+            ) {
+                counter++;
+            }
+        });
+
+		if (counter > num) {
+			totalHitsOfNum++;
+			total[num]++;
+        }
+	})
+	return totalHitsOfNum;
+}
+
+function drawTable(shuffledCombinationsOfDesiredAmount) {
+
+    records.forEach((record, recordIndex) => {
+        
+        const $row = $("<tr/>");
+        let machinePicked;
+        let manualPicked;
+        Object.values(record).forEach((value, valueIndex) => {
+            const valueCell = valueIndex === 0 ? $('<th/>').attr('scope', 'row') : $('<td/>');
+            valueCell.text(value);
+            if (valueIndex === 1) {
+                machinePicked = value;
+            } else if (valueIndex === 2) {
+                manualPicked = value;
+            }
+            
+            valueCell.appendTo($row)
+        })
+        let $sevenValueCell = $("<td/>"),
+          $sixValueCell = $("<td/>"),
+          $fiveValueCell = $("<td/>"),
+          $fourValueCell = $("<td/>");
+
+        $sevenValueCell.text(
+          findHits(shuffledCombinationsOfDesiredAmount, machinePicked, manualPicked, 7)
+        );
+        $sixValueCell.text(findHits(shuffledCombinationsOfDesiredAmount, machinePicked, manualPicked, 6));
+        $fiveValueCell.text(findHits(shuffledCombinationsOfDesiredAmount, machinePicked, manualPicked, 5));
+        $fourValueCell.text(findHits(shuffledCombinationsOfDesiredAmount, machinePicked, manualPicked, 4));
+
+        $row.append($sevenValueCell);
+        $row.append($sixValueCell);
+        $row.append($fiveValueCell);
+        $row.append($fourValueCell);
+
+        $("#stats-table #tbody1").append($row)
+    })
+    const $totalRow = $("<tr/>");
+
+    $totalRow.append($('<td/>'));
+    $totalRow.append($("<td/>"));
+    $totalRow.append($("<td/>"));
+    $totalRow.append($("<td/>").text(total[7]));
+    $totalRow.append($("<td/>").text(total[6]));
+    $totalRow.append($("<td/>").text(total[5]));
+    $totalRow.append($("<td/>").text(total[4]));
+
+
+    $("#stats-table #tbody2").append($totalRow);
+}
+
 function roundnumTo50(num) {
     return Math.round(num / 50) * 50;
 }
@@ -270,29 +371,5 @@ function floorNumTo50(num) {
     return Math.floor(num / 50) * 50;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 createInputs()
+})()

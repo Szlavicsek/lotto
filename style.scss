@@ -47,6 +47,10 @@ body {
     letter-spacing: 5px;
 }
 
+#final_combinations li {
+  display: flex;
+}
+
 #cover {
     z-index: 5;
     position: fixed;
