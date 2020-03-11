@@ -245,8 +245,6 @@ $('#selectedFixNumbers').submit(function (e) {
 				$("#final_combinations").html("");
 				$("#tbody1").html("");
 				$("#tbody2").html("");
-				$("#cover").fadeIn(100);
-				$("#spinner").fadeIn(100);
 				setTimeout(() => {
 					const shuffledCombinations = _.shuffle(reducedCombinations);
 					const desiredAmount = Number($("#formControlRange").val());
@@ -262,8 +260,6 @@ $('#selectedFixNumbers').submit(function (e) {
 					});
 					drawTable(shuffledCombinationsOfDesiredAmount);
 					$("#randomlyPickedResultCount").text(`${desiredAmount} combinations picked`);
-					$("#cover").hide();
-                    $("#spinner").hide();
 				}, 150)
                 e.preventDefault()
             })
