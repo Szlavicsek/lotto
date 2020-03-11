@@ -262,8 +262,8 @@ $('#selectedFixNumbers').submit(function (e) {
 					});
 					drawTable(shuffledCombinationsOfDesiredAmount);
 					$("#randomlyPickedResultCount").text(`${desiredAmount} combinations picked`);
-					$("#cover").hide(100);
-                    $("#spinner").hide(100);
+					$("#cover").hide();
+                    $("#spinner").hide();
 				}, 150)
                 e.preventDefault()
             })
