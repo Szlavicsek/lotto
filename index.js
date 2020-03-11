@@ -4,9 +4,9 @@
  * @return {*[]}
  */
 (async () => {
-const records = await $.ajax("/lotto.json")
-  .then(res => res)
-  .catch(err => console.log(err));
+const records = await $.ajax("https://szlavicsek.github.io/lotto.json")
+    .then(res => res)
+    .catch(err => console.log(err));
 
 
 function combineWithoutRepetitions(comboOptions, comboLength) {
@@ -245,6 +245,8 @@ $('#selectedFixNumbers').submit(function (e) {
 				$("#final_combinations").html("");
 				$("#tbody1").html("");
 				$("#tbody2").html("");
+				$("#cover").fadeIn(100);
+				$("#spinner").fadeIn(100);
 				setTimeout(() => {
 					const shuffledCombinations = _.shuffle(reducedCombinations);
 					const desiredAmount = Number($("#formControlRange").val());
@@ -260,6 +262,8 @@ $('#selectedFixNumbers').submit(function (e) {
 					});
 					drawTable(shuffledCombinationsOfDesiredAmount);
 					$("#randomlyPickedResultCount").text(`${desiredAmount} combinations picked`);
+					$("#cover").hide();
+                    $("#spinner").hide();
 				}, 150)
                 e.preventDefault()
             })
