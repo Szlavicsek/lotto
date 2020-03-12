@@ -1,4 +1,4 @@
-[
+export default [
   {
     "date": "2020/03/04",
     "numbers_auto": [

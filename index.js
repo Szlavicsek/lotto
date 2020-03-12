@@ -3,10 +3,14 @@
  * @param {number} comboLength
  * @return {*[]}
  */
+import records from './lotto';
+console.log(records);
+
+
 (async () => {
-const records = await $.ajax("https://szlavicsek.github.io/lotto.json")
-    .then(res => res)
-    .catch(err => console.log(err));
+// const records = await $.ajax("https://szlavicsek.github.io/lotto.json")
+//     .then(res => res)
+//     .catch(err => console.log(err));
 
 
 function combineWithoutRepetitions(comboOptions, comboLength) {
