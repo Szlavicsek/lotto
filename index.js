@@ -3,7 +3,7 @@
  * @param {number} comboLength
  * @return {*[]}
  */
-import records from './lotto';
+import records from './lotto.js';
 console.log(records);
 
 
